@@ -34,7 +34,7 @@ const { noteTitle, noteText } = req.body;
 
   const response = {
     status: 'success',
-    body: newNote,
+    body: JSON.stringify(req.body),
   };
 
   console.log(response);
