@@ -9,6 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
+
 app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
 );
@@ -20,15 +21,16 @@ app.get('/notes', (req, res) => {
   // res.status(200).json(notes)
 });
 
-app.post('/notes', (req, res) => {
+app.post('/api/notes', (req, res) => {
 console.log(`${req.method} request recieved to add new note`)
+console.log(req.body)
 
 const { noteTitle, noteText } = req.body;
-if (noteTitle && noteText) {
+
   const newNote = {
     noteTitle,
     noteText
-  }};
+  };
 
   const response = {
     status: 'success',
