@@ -42,6 +42,7 @@ const saveNote = (note) => //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note)
+    
   });
 
 const deleteNote = (id) =>
@@ -78,7 +79,8 @@ const handleNoteSave = () => { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   saveNote(newNote).then(() => {
     console.log('trying to save note')
     getAndRenderNotes();
-    renderActiveNote(newNote);
+    renderActiveNote()
+
   });
 };
 
@@ -128,9 +130,9 @@ const renderNoteList = async (notes) => {
   if (window.location.pathname === '/api/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
-
+  
   let noteListItems = [];
-
+  
   // Returns HTML element with or without a delete button
   const createLi = (text, delBtn = true) => {
     const liEl = document.createElement('li');
@@ -177,11 +179,13 @@ const renderNoteList = async (notes) => {
 };
 
 // Gets notes from the db and renders them to the sidebar
-const getAndRenderNotes = () => getNotes().then(renderNoteList);
+const getAndRenderNotes = () => getNotes()
+.then(renderNoteList)
+
 
 if (window.location.pathname === '/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
-  newNoteBtn.addEventListener('click', handleNewNoteView);
+  newNoteBtn.addEventListener('click', handleNewNoteView)
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
   noteText.addEventListener('keyup', handleRenderSaveBtn);
 }

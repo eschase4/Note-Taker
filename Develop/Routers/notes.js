@@ -36,6 +36,7 @@ router.post('/notes', (req, res) => {
   readAndAppend(newNote, './db/db.json');
   res.status(200).json(response.body);
   console.log('Success')
+  window.alert("Note Added!")
 } else {
   res.status(500).json('Error in posting note');
   // readAndAppend
