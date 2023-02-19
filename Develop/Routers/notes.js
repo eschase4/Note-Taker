@@ -1,8 +1,10 @@
 const express = require('express')
 const { readAndAppend, readFromFile } = require('../helpers/fsUtils');
+const fs = require('fs/promises')
 const path = require('path');
 const uuid = require('../helpers/uuid');
-const db = require('../db/db.json')
+const db = require('../db/db.json');
+const { appendFile } = require('fs');
 
 const router = express.Router()
 
@@ -13,7 +15,7 @@ router.get("/notes", (req, res) => {
 
 router.post('/notes', (req, res) => {
   console.log(`${req.method} request recieved to add new note`)
-  console.log(req.body)
+  // console.log(req.body)
 
   const { title, text } = req.body;
 
@@ -28,11 +30,15 @@ router.post('/notes', (req, res) => {
     status: 'success',
     body: newNote,
   };
-
-  res.status(200).json(response);
+  const reviewString = JSON.stringify(newNote)
+  // console.log(response.body)
+  // fs.appendFile('./db/db.json', JSON.stringify(response))
+  readAndAppend(newNote, './db/db.json');
+  res.status(200).json(response.body);
   console.log('Success')
 } else {
   res.status(500).json('Error in posting note');
+  // readAndAppend
   console.log('error')
 }
 });

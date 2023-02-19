@@ -4,6 +4,8 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
+const refresh = window.location.reload
+
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
@@ -33,13 +35,13 @@ const getNotes = () =>
     },
   });
 
-const saveNote = (note) =>
+const saveNote = (note) => //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   fetch('/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(note),
+    body: JSON.stringify(note)
   });
 
 const deleteNote = (id) =>
@@ -66,14 +68,17 @@ const renderActiveNote = () => {
   }
 };
 
-const handleNoteSave = () => {
+const handleNoteSave = () => { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  console.log('hit handleNoteSave')
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
   };
+   console.log(newNote, "hey")
   saveNote(newNote).then(() => {
+    console.log('trying to save note')
     getAndRenderNotes();
-    renderActiveNote();
+    renderActiveNote(newNote);
   });
 };
 
@@ -100,6 +105,7 @@ const handleNoteView = (e) => {
   e.preventDefault();
   activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
   renderActiveNote();
+  // window.location.reload()
 };
 
 // Sets the activeNote to and empty object and allows the user to enter a new note
@@ -119,7 +125,7 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
-  if (window.location.pathname === '/notes') {
+  if (window.location.pathname === '/api/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
 
