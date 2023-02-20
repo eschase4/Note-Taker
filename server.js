@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
-const uuid = require('./Develop/Helpers/uuid');
-const apiRouter = require('./Develop/Routers');
+const apiRouter = require('./Routers');
 
 
 const PORT = process.env.PORT || 3001;
@@ -11,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('develop/public'));
+app.use(express.static('public'));
 
 //app.use('/api', router)
 app.use(apiRouter)
@@ -22,13 +21,13 @@ app.use(apiRouter)
 app.get('/notes', (req, res) => {
   // res.sendFile(path.join(__dirname, '/public/notes.html'))
   console.log('GET notes')
-  res.sendFile(path.join(__dirname, 'develop/public/notes.html'))
+  res.sendFile(path.join(__dirname, '/public/notes.html'))
   // res.status(200).json(notes)
 });
 
 // GET localhost:3001/*
-app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, 'develop/public/index.html'))
+app.get('/*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
 
